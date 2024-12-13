@@ -1,6 +1,6 @@
 ### 构想
 
-实现一个**轻量级**扫描器，主要用于信息收集和POC探测，旨在资产发现阶段帮助获取更多有限的关键信息。
+在kscan基础上改进实现一个**轻量级**扫描器，主要用于信息收集和POC探测，旨在资产发现阶段帮助获取更多有限的关键信息。
 
 
 ### 完成项
@@ -23,10 +23,6 @@
 
   参考:
 
-  https://github.com/qi4L/Qscan
-
-  https://github.com/jjf012/gopoc (KscanPro已经接入了这个)
-
   https://github.com/WAY29/pocV
 
   https://github.com/jweny/pocassist
@@ -39,6 +35,8 @@
 - 考虑是否加入finger指纹识别引擎/工具，替换原有的指纹识别机制
 
 ### References
+
+https://github.com/qi4L/Qscan
 
 https://github.com/chainreactors/gogo
 
