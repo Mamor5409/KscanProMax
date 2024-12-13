@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+{{define "header"}}
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>漏洞扫描报告</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        body,
+        html {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-light.png");
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+            background-color: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            background-color: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #555;
+        }
+
+        .header {
+            background-color: #4b4b4b;
+            color: #fff;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2em;
+        }
+
+        .summary,
+        .section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            width: 80%;
+            padding: 20px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .summary h2,
+        .section h2 {
+            font-size: 1.5em;
+            color: #4caf50;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary p,
+        .section p {
+            font-size: 1em;
+            color: #333;
+            text-align: justify;
+        }
+
+        .summary p strong,
+        .section p strong {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .section p.poc {
+            color: red;
+            background-color: #ffe6e6;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .section details summary {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            border-left: 5px solid #4caf50;
+            transition: background-color 0.3s ease;
+        }
+
+        .section details summary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .section details summary::before {
+            content: '➤';
+            color: #4caf50;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            margin-right: 0.5em;
+        }
+
+        .section details[open] summary::before {
+            content: '▼';
+        }
+
+        .section details div {
+            margin-left: 20px;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .section details div p {
+            font-size: 1em;
+            color: #333;
+            text-align: justify;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+        }
+
+
+
+        .flex-container p {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            /* White background */
+            padding: 5px;
+            border-radius: 7px;
+            border: 1px solid #ddd;
+            /* Light gray border */
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            /* Shadow for depth */
+        }
+
+        .label {
+            width: 150px;
+            font-weight: bold;
+            font-size: 1.0em;
+            color: #333;
+            /* Dark gray color for the label */
+        }
+
+        .value {
+            word-wrap: break-word;
+            max-width: calc(100% - 150px);
+            font-size: 1.0em;
+            overflow-wrap: break-word;
+            color: #666;
+            /* Lighter gray color for the value */
+        }
+
+        .section details[open] div {
+            padding: 10px;
+            background-color: #f8f8f8;
+            /* Light gray background for open details */
+            border-radius: 5px;
+            margin: 10px 20px 20px;
+        }
+        .exp-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* 增加间隙以保持视觉分隔 */
+            justify-content: flex-start; /* 确保卡片从左侧开始排列 */
+        }
+
+        .exp-card {
+            flex: 1;
+            min-width: 350px; /* 最小宽度，以适应不同屏幕 */
+            max-width: 350px; /* 最大宽度，避免卡片过宽 */
+            background-color: #ffffff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid #4CAF50;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 确保标题和下载链接在卡片的两端 */
+            height: 180px; /* 固定卡片高度 */
+        }
+
+        .exp-card h4 {
+            margin-top: 0;
+            margin-bottom: 5px; /* 调整标题下边距 */
+        }
+
+        .exp-card p {
+            font-size: 0.9em; /* 调整字体大小 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* 最多显示三行 */
+            -webkit-box-orient: vertical;
+            margin: 0;
+        }
+
+        .exp-card a {
+            color: #388E3C;
+            text-decoration: none;
+            margin-top: auto; /* 确保链接始终在卡片底部 */
+        }
+
+        .exp-card a:hover {
+            text-decoration: underline;
+        }
+
+
+        .footer {
+            margin-top: auto;
+            background-color: #4b4b4b;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <h1>漏洞扫描报告</h1>
+</div>
+<div class="summary">
+    <h2>概述</h2>
+    <p><strong>目标:</strong> {{.Target}}</p>
+    <p><strong>测试日期:</strong> {{.TestDate}}</p>
+    <p><strong>测试范围:</strong> {{.Scope}}</p>
+</div>
+{{end}}
+{{define "result"}}
+<details class="section">
+    <summary>
+        <h2>{{.ScanResultText}}<span>({{len .Results}}个结果)</span></h2>
+    </summary>
+    {{range .Results}}
+    <details>
+        <summary>{{.Host}}</summary>
+        <div>
+            <div class="flex-container">
+                {{if .Host}}
+                <p><span class="label">Host:</span> <span class="value">{{.Host}}</span></p>
+                {{end}}
+                {{if .OperatingSystem}}
+                <p><span class="label">OS:</span> <span class="value">{{.OperatingSystem}}</span></p>
+                {{end}}
+                {{if .IP}}
+                <p><span class="label">IP:</span> <span class="value">{{.IP}}</span></p>
+                {{else if .Ip}}
+                <p><span class="label">IP:</span> <span class="value">{{.Ip}}</span></p>
+                {{end}}
+                {{if .Port}}
+                <p><span class="label">Port:</span> <span class="value">{{.Port}}</span></p>
+                {{end}}
+                {{if .Domain}}
+                <p><span class="label">Domain:</span> <span class="value">{{.Domain}}</span></p>
+                {{end}}
+                {{if .Protocol}}
+                <p><span class="label">Protocol:</span> <span class="value">{{.Protocol}}</span></p>
+                {{end}}
+                {{if .Service}}
+                <p><span class="label">Service:</span> <span class="value">{{.Service}}</span></p>
+                {{end}}
+                {{if .Server}}
+                <p><span class="label">Server:</span> <span class="value">{{.Server}}</span></p>
+                {{end}}
+                {{if .Title}}
+                <p><span class="label">Title:</span> <span class="value">{{.Title}}</span></p>
+                {{end}}
+                {{if .ICP}}
+                <p><span class="label">ICP:</span> <span class="value">{{.ICP}}</span></p>
+                {{end}}
+                {{if .FingerPrint}}
+                <p><span class="label">Finger:</span> <span class="value">{{.FingerPrint}}</span></p>
+                {{end}}
+                {{if .Addr}}
+                <p><span class="label">Addr:</span> <span class="value">{{.Addr}}</span></p>
+                {{end}}
+                <!--                {{if .Digest}}-->
+                <!--                <p><span class="label">Digest:</span> <span class="value">{{.Digest}}</span></p>-->
+                <!--                {{end}}-->
+                {{if .Banner}}
+                <p><span class="label">Banner:</span> <span class="value">{{.Banner | safeHTML}}</span></p>
+                {{end}}
+                {{if .Header}}
+                <p><span class="label">Header:</span> <span class="value">{{.Header | safeHTML}}</span></p>
+                {{end}}
+                {{if .OS}}
+                <p><span class="label">OS:</span> <span class="value">{{.OS}}</span></p>
+                {{end}}
+                <!--Poc-->
+                {{if .Status}}
+                <p><span class="label">Status:</span> <span class="value">{{.Status}}</span></p>
+                {{end}}
+                {{if .PocName}}
+                <p><span class="label">PocName:</span> <span class="value">{{.PocName}}</span></p>
+                {{end}}
+                {{if .CveId}}
+                <p><span class="label">CveId:</span> <span class="value">{{.CveId}}</span></p>
+                {{end}}
+                {{if .VulnLevel}}
+                <p><span class="label">VulnLevel:</span> <span class="value">{{.VulnLevel}}</span></p>
+                {{end}}
+                <!--EXP-->
+                {{if .Exp}}
+                <div class="exp-container">
+                        <div class="exp-cards">
+                            {{range .Exp}}
+                            <div class="exp-card">
+                                <h4>{{.CveId}}</h4>
+                                <p><span class="label">描述:</span> <span class="value">{{.Description}}</span></p>
+<!--                                <p><strong>描述:</strong> {{.Description}}</p>-->
+                                <p><strong>下载链接:</strong> <a href="{{.DownloadLink}}"   target="_blank">下载EXP</a></p>
+                            </div>
+                            {{end}}
+                        </div>
+                </div>
+                {{end}}
+                <!--Hydra-->
+                {{if .Keyword}}
+                <p><span class="label">Keyword:</span> <span class="value">{{.Keyword}}</span></p>
+                {{end}}
+                {{if .Username}}
+                <p><span class="label">Username:</span> <span class="value">{{.Username}}</span></p>
+                {{end}}
+                {{if .Password}}
+                <p><span class="label">Password:</span> <span class="value">{{.Password}}</span></p>
+                {{end}}
+
+            </div>
+        </div>
+    </details>
+    {{end}}
+</details>
+{{end}}
+
+{{define "footer"}}
+<div class="footer">
+    <p>© 2024 </p>
+</div>
+<script>
+    window.onload = function () {
+        var sections = document.querySelectorAll('.section');
+        sections.forEach(function (section) {
+            var detailsElements = section.querySelectorAll('details');
+            var count = detailsElements.length;
+            var h2Element = section.querySelector('h2');
+            var spanElement = h2Element.querySelector('span');
+            spanElement.textContent = '(' + count + '个结果)';
+        });
+    };
+</script>
+</body>
+
+</html>
+{{end}}
