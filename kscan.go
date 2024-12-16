@@ -40,7 +40,7 @@ const logo = `
   |  < / __|/ __/ _` + "`" + ` | '_ \  |  ___/ '__/ _ \  | |\/| |/ _` + "`" + ` \ \/ /
   | . \\__ \ (_| (_| | | | | | |   | | | (_) | | |  | | (_| |>  < 
   |_|\_\___/\___\__,_|_| |_| |_|   |_|  \___/  |_|  |_|\__,_/_/\_\
-			KscanProMax   version: 0.3
+			KscanProMax   version: 0.31
 `
 
 // 帮助信息
@@ -96,7 +96,7 @@ ascan options:
    --ascan        查询单个企业名称对应的网站信息【仅查询企业信息，不进行扫描】
    --ascan-s	  是否递归查询对外投资[90%]以上开业公司信息
    --ascan-b	  是否递归查询开业状态的子公司信息
-   --ascan-f	  批量查询企业名称查询并进行扫描【现在还没写导入文件的功能】
+   --ascan-f	  批量查询企业名称查询并进行扫描
    --ascan-fofa   联动fofa批量查询企业信息
 
 `
@@ -236,6 +236,9 @@ func OriginalMain() {
 		var CompanyNames []string
 		//slog.Println(slog.INFO, "len(app.Setting.AscanFile)：", len(app.Setting.AscanFile))
 		for index := range app.Setting.AscanFile {
+			if strings.TrimSpace(app.Setting.AscanFile[index]) == "" {
+				continue // 跳过空行或仅包含换行符的行
+			}
 			CompanyNames = append(CompanyNames, app.Setting.AscanFile[index])
 		}
 		for _, value := range CompanyNames {
