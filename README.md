@@ -42,7 +42,7 @@ https://github.com/chainreactors/gogo
 
 https://github.com/niudaii/zpscan
 
-https://github.com/SleepingBag945/dddd【如果直接接入其他项目代码 可参考这个dddd 去接入subfinder nuclei】
+https://github.com/SleepingBag945/dddd
 
 ### 使用参数
 
@@ -124,10 +124,10 @@ ascan options:
 | IP              | Port  | Service         | OS      | Keyword                                  | Finger                                                       
 +-------------------------------------------------------------------------------------------------------------------------------------+
 | 1xx.xx.xx.xxx| 22    | ssh             |         | ssh                                      | OpenSSH 7.4                                                   
-| 115.236.121.126 | 25    | smtp            |         | smtp                                     |                                                               
-| 112.230.203.162 | 23    | telnet          |         | telnet                                   |                                                               
-| 115.236.121.126 | 110   | pop3            |         | pop3                                     |                                                               
-| 115.236.121.126 | 143   | imap            |         | imap                                     |                                                               
+| 1xx.xx.xx.xxx | 25    | smtp            |         | smtp                                     |                                                               
+| 1xx.xx.xx.xxx | 23    | telnet          |         | telnet                                   |                                                               
+| 1xx.xx.xx.xxx | 110   | pop3            |         | pop3                                     |                                                               
+| 1xx.xx.xx.xxx | 143   | imap            |         | imap                                     |                                                               
 | 1xx.xx.xx.xxx| 443   | https           |         | 测试测试测试                       | JQuery;HTML5;xinjingxiang-system;nginx/1.24.0;nginx           
 | 1xx.xx.xx.xxx| 3306  | mysql           |         | mysql                                    | MySQL                                                         
 | 1xx.xx.xx.xxx| 80    | http            |         | 测试测试测试                       | JQuery;HTML5;xinjingxiang-system;nginx/1.24.0;nginx           
